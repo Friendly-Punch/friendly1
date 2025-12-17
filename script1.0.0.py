@@ -8,8 +8,7 @@ mode = st.radio("モード選択", ["通常シミュレーション", "逆算シ
 
 rate = st.slider("年率（%）", 0.0, 10.0, 5.0)
 st.caption("参考：日本株の平均利回りはおおよそ3〜5％程度です "
-           "（[東証統計](https://www.jpx.co.jp/markets/statistics-equities/misc/03.html)、"
-           "[日経平均益利回り](https://stock-marketdata.com/earnings-yield-nikkei225.html)）")
+           "（[東証統計](https://www.jpx.co.jp/markets/statistics-equities/misc/03.html))")
 
 r_month = rate / 100 / 12
 
@@ -48,6 +47,17 @@ if mode == "通常シミュレーション":
     if show_target:
         target_line = st.number_input("目標額（円）", min_value=100000, step=100000, value=10000000)
         df["目標ライン"] = target_line
+
+        # 目標到達年齢を計算
+        reached_age = None
+        for age, val in zip(df["年齢"], df["運用後資産"]):
+            if val >= target_line:
+                reached_age = age
+                break
+        if reached_age:
+            st.success(f"目標額 {target_line:,.0f} 円 に到達するのは **{reached_age} 歳** の時点です。")
+        else:
+            st.info("積立期間内には目標額に到達しない可能性が高いです。")
 
     st.subheader("年齢ごとの資産推移")
     st.line_chart(df.set_index("年齢"))
