@@ -8,7 +8,7 @@ mode = st.radio("モード選択", ["通常シミュレーション", "逆算シ
 
 rate = st.slider("年率（%）", 0.0, 10.0, 5.0)
 st.caption("参考：日本株の平均利回りはおおよそ3〜5％程度です "
-           "（[東証統計](https://www.jpx.co.jp/markets/statistics-equities/misc/03.html)")
+           "（[東証統計](https://www.jpx.co.jp/markets/statistics-equities/misc/03.html))")
 
 r_month = rate / 100 / 12
 
