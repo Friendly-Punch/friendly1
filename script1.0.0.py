@@ -8,7 +8,8 @@ mode = st.radio("モード選択", ["通常シミュレーション", "逆算シ
 
 rate = st.slider("年率（%）", 0.0, 10.0, 5.0)
 st.caption("参考：日本株の平均利回りはおおよそ3〜5％程度です "
-           "（[東証統計](https://www.jpx.co.jp/markets/statistics-equities/misc/03.html))")
+           "（[東証統計](https://www.jpx.co.jp/markets/statistics-equities/misc/03.html)、"
+           "[日経平均益利回り](https://stock-marketdata.com/earnings-yield-nikkei225.html)）")
 
 r_month = rate / 100 / 12
 
@@ -50,6 +51,11 @@ if mode == "通常シミュレーション":
 
     st.subheader("年齢ごとの資産推移")
     st.line_chart(df.set_index("年齢"))
+
+    # 表を任意表示
+    show_table = st.checkbox("年齢ごとの資産表を表示する")
+    if show_table:
+        st.dataframe(df.style.format({"元本累計": "{:,.0f}", "運用後資産": "{:,.0f}"}))
 
 # 逆算シミュレーション
 else:
